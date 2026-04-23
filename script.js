@@ -15,6 +15,8 @@ const directionToggleButton = document.getElementById("directionToggle");
 
 const WORKER_URL = "https://calm-art-d358.aato1.workers.dev/";
 const SELECTED_PRODUCTS_STORAGE_KEY = "loreal-selected-product-ids";
+const CATEGORY_CHOOSE_VALUE = "__choose__";
+const CATEGORY_ALL_VALUE = "__all__";
 const DIRECTION_MODE_STORAGE_KEY = "loreal-direction-mode";
 const MAX_CONTINUATION_CALLS = 6;
 const MAX_HISTORY_MESSAGES = 16;
@@ -330,20 +332,28 @@ function applyProductFilters() {
     return;
   }
 
-  const categoryValue = categoryFilter.value;
+  let categoryValue = categoryFilter.value;
 
-  if (!categoryValue) {
+  if (categoryValue === CATEGORY_CHOOSE_VALUE && searchQuery) {
+    categoryFilter.value = CATEGORY_ALL_VALUE;
+    categoryValue = CATEGORY_ALL_VALUE;
+  }
+
+  if (categoryValue === CATEGORY_CHOOSE_VALUE) {
     visibleProducts = [];
     productsContainer.innerHTML = `
       <div class="placeholder-message">
         Select a category to view products
       </div>
     `;
+    renderSelectedProducts();
     return;
   }
 
   const filteredProducts = allProducts.filter((product) => {
-    const matchesCategory = product.category === categoryValue;
+    const matchesCategory =
+      categoryValue === CATEGORY_ALL_VALUE ||
+      product.category === categoryValue;
     const matchesSearch = productMatchesSearch(product, searchQuery);
     return matchesCategory && matchesSearch;
   });
@@ -1104,6 +1114,7 @@ async function initializeSelectedProductsSection() {
   }
 
   syncSelectedIdsWithCatalog();
+  applyProductFilters();
   renderSelectedProducts();
 }
 
