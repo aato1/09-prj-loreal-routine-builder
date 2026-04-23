@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -19,12 +19,30 @@
     <div class="page-wrapper">
       <!------- Header / Branding ------->
       <header class="site-header">
-        <img src="img/loreal-logo.png" alt="L'Oréal Logo" class="logo" />
-        <h1 class="site-title">Smart Routine &amp; Product Advisor</h1>
+        <div class="brand-block">
+          <img src="img/loreal-logo.png" alt="L'Oréal Logo" class="logo" />
+          <p class="site-title">Smart Routine &amp; Product Advisor</p>
+        </div>
+
+        <button
+          id="directionToggle"
+          type="button"
+          class="direction-toggle"
+          aria-label="Change page direction"
+          title="Direction: Auto"
+        >
+          <span class="direction-toggle-label">Direction</span>
+          <span class="direction-toggle-value">Auto</span>
+        </button>
+
+        <nav class="page-nav" aria-label="Page sections">
+          <a href="#shop">Categories</a>
+          <a href="#chatSection">Chat</a>
+        </nav>
       </header>
 
       <!-- Category Filter -->
-      <div class="search-section">
+      <div id="shop" class="search-section">
         <select id="categoryFilter">
           <option value="" disabled selected>Choose a Category</option>
           <option value="cleanser">Cleansers</option>
@@ -37,14 +55,53 @@
           <option value="suncare">Suncare</option>
           <option value="fragrance">Fragrance</option>
         </select>
+
+        <label for="productSearch" class="visually-hidden"
+          >Search products</label
+        >
+        <input
+          id="productSearch"
+          class="product-search"
+          type="search"
+          placeholder="Search products or keywords"
+          autocomplete="off"
+        />
+
+        <button
+          type="button"
+          class="hover-help"
+          aria-label="Selection tip"
+          data-tooltip="Tip: Click cards quickly to select. Product details appear only after hovering for about 1 second."
+        >
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+        </button>
       </div>
 
       <!-- Products Grid -->
       <div id="productsContainer" class="products-grid"></div>
 
       <!-- Selected Products -->
-      <div class="selected-products">
-        <h2>Selected Products</h2>
+      <div id="selectedSection" class="selected-products">
+        <div class="selected-header">
+          <h2>Selected Products</h2>
+          <div class="selected-actions">
+            <button
+              type="button"
+              class="hover-help selected-help"
+              aria-label="Selected products tip"
+              data-tooltip="Tip: Click to remove individual products."
+            >
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            </button>
+            <button
+              id="clearSelectedProducts"
+              type="button"
+              class="clear-selected-btn"
+            >
+              Clear All
+            </button>
+          </div>
+        </div>
         <div id="selectedProductsList"></div>
         <button id="generateRoutine" class="generate-btn">
           <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Routine
@@ -52,8 +109,27 @@
       </div>
 
       <!------- Chat Area ------->
-      <section class="chatbox">
-        <h2>Let's Build Your Routine</h2>
+      <section id="chatSection" class="chatbox">
+        <div class="chat-header">
+          <h2>Let's Build Your Routine</h2>
+          <div class="chat-actions">
+            <button
+              type="button"
+              class="hover-help chat-help"
+              aria-label="Conversation reset tip"
+              data-tooltip="Tip: Reset conversation clears chat messages and follow-up memory so you can start fresh."
+            >
+              <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            </button>
+            <button
+              id="resetConversation"
+              type="button"
+              class="clear-selected-btn"
+            >
+              Reset Conversation
+            </button>
+          </div>
+        </div>
         <div id="chatWindow" class="chat-window"></div>
 
         <form id="chatForm" class="chat-form">
@@ -74,7 +150,7 @@
       </section>
 
       <!------- Footer Links ------->
-      <footer class="site-footer">
+      <footer id="footerSection" class="site-footer">
         <p>&copy; 2025 L'Oréal. All rights reserved.</p>
         <nav>
           <!-- These URLs are placeholders -->
@@ -85,8 +161,6 @@
       </footer>
     </div>
 
-    <!-- secrets.js can be removed when using Cloudflare Workers for API requests -->
-    <script src="secrets.js"></script>
     <script src="script.js"></script>
   </body>
 </html>
